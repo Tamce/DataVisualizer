@@ -17,20 +17,26 @@
             var cc = canvas.getContext("2d");
             var width = 1080,
             height = 800;
-            function random(s, e) {
+            function random(s, e)
+            {
                 return Math.floor(Math.random() * (e - s) + s);
             }
 
             arr = [];
-            for (var i = 0; i < 40; ++i) {
+            for (var i = 0; i < 50; ++i)
+            {
                 arr[i] = random(1, 50);
             }
             data = new Data(arr);
 
-            function bubleSort(begin, end) {
-                for (var i = begin; i <= end; ++i) {
-                    for (var j = begin; j < end; ++j) {
-                        if (data.get(j) > data.get(j + 1)) {
+            function bubleSort(begin, end)
+            {
+                for (var i = begin; i <= end; ++i)
+                {
+                    for (var j = begin; j < end; ++j)
+                    {
+                        if (data.get(j) > data.get(j + 1))
+                        {
                             var temp = data.get(j);
                             data.set(j, data.get(j + 1));
                             data.set(j + 1, temp);
@@ -39,10 +45,14 @@
                 }
             }
 
-            function selectionSort(begin, end) {
-                for (var i = begin; i <= end; ++i) {
-                    for (var j = i; j <= end; ++j) {
-                        if (data.get(i) > data.get(j)) {
+            function selectionSort(begin, end)
+            {
+                for (var i = begin; i <= end; ++i)
+                {
+                    for (var j = i; j <= end; ++j)
+                    {
+                        if (data.get(i) > data.get(j))
+                        {
                             var temp = data.get(j);
                             data.set(j, data.get(i));
                             data.set(i, temp);
@@ -51,32 +61,39 @@
                 }
             }
 
-            function quickSort(begin, end) {
+            function quickSort(begin, end)
+            {
                 if (begin >= end) return;
                 var pivot = Math.floor((begin + end) / 2);
                 var p = data.get(pivot);
                 var i = begin,
                 j = end;
-                while (i < j) {
-                    while (data.get(i) <= p)++i;
-                    while (data.get(j) > p)--j;
-                    if (i < j) {
+                while (i <= j)
+                {
+                    while (i < end && data.get(i) < p) ++i;
+                    while (begin < j && data.get(j) > p) --j;
+                    if (i <= j)
+                    {
                         var temp = data.get(j);
                         data.set(j, data.get(i));
-                        data.set(i, temp); ++i; --j;
+                        data.set(i, temp);
+                        ++i;
+                        --j;
                     }
                 }
-                quickSort(begin, i);
-                quickSort(i + 1, end);
+                quickSort(begin, j);
+                quickSort(i, end);
             }
 
             var sort = bubleSort;
 
-            function update() {
+            function update()
+            {
                 console.log("frame");
                 cc.fillStyle = "black";
                 cc.fillRect(0, 0, width, height);
-                if (data.animate.length > 0) {
+                if (data.animate.length > 0)
+                {
                     animate = data.animate.shift();
                 } else {
                     animate = {
@@ -84,15 +101,18 @@
                     };
                 }
 
-                for (var i = 0; i < data.origin.length; ++i) {
+                for (var i = 0; i < data.origin.length; ++i)
+                {
                     d = data.origin[i];
                     cc.fillStyle = "white";
-                    if (i == animate.index) {
-                        if (animate.type == "get") {
+                    if (i == animate.index)
+                    {
+                        if (animate.type == "get")
+                        {
                             cc.fillStyle = "#5f5";
-                        } else if (animate.type == "set") {
+                        } else if (animate.type == "set")
+                        {
                             cc.fillStyle = "red";
-                            // d = animate.value;
                             data.origin[i] = animate.value;
                             d = animate.value;
                         }
@@ -101,7 +121,7 @@
                 }
             }
 
-            document.onload = setInterval(update, 1000 / 50);
+            document.onload = setInterval(update, 1000 / 100);
             sort(0, data.length() - 1);
         </script>
     </body>
