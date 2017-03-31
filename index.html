@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Data Visualize</title>
+	<script type="text/javascript" src="sketch.js"></script>
+</head>
+<body bgcolor="black">
+	<canvas id="pic" width="720px" height="1000px"></canvas>
+	<script type="text/javascript">
+		var canvas = document.getElementById("pic");
+		var cc = canvas.getContext("2d");
+		var width = 640, height = 500;
+		function random(s, e)
+		{
+			return Math.floor(Math.random() * (e - s) + s);
+		}
+
+		arr = [];
+		for (var i = 0; i < 20; ++i)
+		{
+			arr[i] = random(1, 50);
+		}
+		data = new Data(arr);
+
+		function sort(begin, end)
+		{
+
+		}
+
+		function update()
+		{
+			console.log("frame");
+			cc.fillStyle = "black";
+			cc.fillRect(0, 0, width, height);
+			if (data.animate.length > 0)
+			{
+				animate = data.animate.shift();
+			} else {
+				animate = {type: "none"};
+			}
+
+			for (var i = 0; i < data.origin.length; ++i)
+			{
+				d = data.origin[i];
+				cc.fillStyle = "white";
+				if (i == animate.index)
+				{
+					if (animate.type == "get")
+					{
+						cc.fillStyle = "green";
+					} else if (animate.type == "set")
+					{
+						cc.fillStyle = "red";
+						// d = animate.value;
+						data.origin[i] = animate.value;
+					}
+				}
+				cc.fillRect(i * 20, height - d * 10, 10, d * 10);
+			}
+		}
+
+		document.onload = setInterval(update, 1000 / 3);
+		sort(0, data.length() - 1);
+	</script>
+</body>
+</html>
